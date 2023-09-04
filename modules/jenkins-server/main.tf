@@ -7,28 +7,26 @@ data "aws_availability_zones" "available_zones" {}
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #  fetching AMI ID
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-data "aws_ami" "amazon_linux_2" {
+data "aws_ami" "ubuntu-linux-1404" {
   most_recent = true
-
-  filter {
-    name   = "owner-alias"
-    values = ["amazon"]
-  }
+  owners      = ["099720109477"]
 
   filter {
     name   = "name"
-    values = ["amzn2-ami-hvm*"]
+    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
   }
-  owners = ["amazon"]
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
 }
-
 
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #  creating ec2 instances in public subnet
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 resource "aws_instance" "jenkins-server" {
-  ami           = data.aws_ami.amazon_linux_2.id
+  ami           = data.aws_ami.ubuntu-linux-1404.id
   instance_type = var.instance_type
   //count           = 1
   key_name        = var.keypair_name

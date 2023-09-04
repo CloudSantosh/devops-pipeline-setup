@@ -33,3 +33,22 @@ module "jenkins-server" {
   project_name                     = var.project_name
   jenkins_server_security_group_id = module.security.jenkins_server_security_group_id
 }
+/*
+module "sonarqube-server" {
+  source                             = "../modules/sonarqube-server"
+  instance_type                      = var.instance_type
+  keypair_name                       = var.keypair_name
+  public_subnet_az_id                = module.vpc.public_subnet_az_id
+  project_name                       = var.project_name
+  sonarqube_server_security_group_id = module.security.sonarqube_server_security_group_id
+}
+*/
+module "docker-server" {
+  source                          = "../modules/docker-server"
+  instance_type                   = var.instance_type
+  keypair_name                    = var.keypair_name
+  public_subnet_az_id             = module.vpc.public_subnet_az_id
+  project_name                    = var.project_name
+  docker_server_security_group_id = module.security.docker_server_security_group_id
+}
+
